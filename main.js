@@ -1,10 +1,11 @@
-import dotenv from "dotenv";
+import dotenv from "dotenv"
 dotenv.config({ quiet: true })
 import { makeWASocket, useMultiFileAuthState } from 'baileys'
 import QRCode from 'qrcode-terminal'
 import P from 'pino'
-import { conversationMessage, documentMessage } from './src/utils/messageHandler.js'
 import chalk from 'chalk'
+import fs from 'fs'
+import { conversationMessageHandler, documentMessageHandler, extendedMessageHandler } from "./src/utils/messageHandler.js"
 
 const { state, saveCreds } =  await useMultiFileAuthState('auth_info_baileys')
 
@@ -30,37 +31,41 @@ function main() {
                 console.log(chalk.greenBright(`Bot reconnecting ${delay} minutes`))
                 setTimeout(() => {
                     main()
-                }, delay * 60 * 1000);
+                }, delay * 60 * 1000)
             }
         }
     })
 
     sock.ev.on('messages.upsert', async (m) => {
+
+        fs.writeFileSync('tesMessages/all.txt', JSON.stringify(m, null, 2))
         if(m.type === 'notify') {
             const { key, pushName, message } = m.messages[0]
             try {
                 if(message.documentMessage) {
-                    const { error, reply } = await documentMessage(m.messages[0])
+                    const { error, reply } = await documentMessageHandler(message.documentMessage, pushName)
                     if(!error) {
                         sock.sendMessage(key.remoteJid, { text: reply })
                     }
                 } else if(message.documentWithCaptionMessage) {
-                    const { error, reply } = await documentMessage(message.documentWithCaptionMessage)
+                    const { error, reply } = await documentMessageHandler(message.documentWithCaptionMessage, pushName)
                     if(!error) {
                         sock.sendMessage(key.remoteJid, { text: reply })
                     }
-                } else if(message.imageMessage) {
-                    const { caption } = message.imageMessage
-                    console.log(chalk.gray(`Receive message img from ${chalk.whiteBright(pushName)}: ${caption}`))
-                } else if (message.conversation) {
+                } else if(message.conversation) {
                     const { conversation } = message
-                    const { reply, error } = await conversationMessage(pushName, conversation)
+                    const { reply, error } = await conversationMessageHandler(conversation, pushName)
+                    if(!error) {
+                        sock.sendMessage(key.remoteJid, { text: reply })
+                    }
+                } else if(message.extendedTextMessage) {
+                    const { error, reply } = await extendedMessageHandler(message.extendedTextMessage, pushName)
                     if(!error) {
                         sock.sendMessage(key.remoteJid, { text: reply })
                     }
                 } else {
                     const msgType = Object.keys(message)[0]
-                    console.log(chalk.redBright(`No handler message type: ${msgType}`));
+                    console.log(chalk.redBright(`No handler message type: ${msgType}`))
                 }
             } catch (error) {
                 console.log(chalk.red(error))

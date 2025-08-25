@@ -7,14 +7,14 @@ import getStatics from "../feat/stats.js";
 import { backup } from "../feat/backup.js";
 import { exec } from 'child_process'
 
-async function documentMessage(messageRaw) {
-    const { pushName, message } = messageRaw
-    const { caption, mimetype, fileName  } = message.documentMessage
-    console.log(chalk.gray(`Receive message doc from ${chalk.whiteBright(pushName)}: ${caption}`))    
+async function documentMessageHandler(message, pushName, txt) {
+    const { caption, mimetype, fileName  } = message
+    const text =  txt || caption
+    console.log(chalk.gray(`Receive message doc from ${chalk.whiteBright(pushName)}: ${text.length >= 15 ? text.substring(0, 15) + "..." : text}`))    
 
-    const mainCommand = caption.split(' ')[0]
-    const subCommand = caption.split(' ')[1]
-    const secondSubCommand = caption.split(' ')[2]
+    const mainCommand = text.split(' ')[0]
+    const subCommand = text.split(' ')[1]
+    const secondSubCommand = text.split(' ')[2]
     let data = {
         error: true,
         reply: ""
@@ -27,13 +27,14 @@ async function documentMessage(messageRaw) {
             const connection = await printerConnection(printerName)
             
             if(connection === true) {
-                if(queue === true) {
-                    const options = generateOptionsPrint(caption)
-                    const buffer = await downloadMediaMessage(messageRaw, 'buffer')
+                if(!queue) {
+                    const options = generateOptionsPrint(text)
+                    const buffer = await downloadMediaMessage(message, 'buffer')
                     if(!fs.existsSync('./temp')) {
                         fs.mkdirSync('./temp')
                     }
                     const name = `${Date.now()}.pdf`
+                    console.log(name)
                     fs.writeFileSync('./temp/' + name, buffer)
                     data.reply = lang('printerRunning')
                     printPDF(printerName, './temp/' + name, options)
@@ -45,15 +46,15 @@ async function documentMessage(messageRaw) {
                 console.log("Announcement: Printer offline")
                 data.reply = lang('printerOffline')
             }
-        } else if(subCommand === 'Backup' || subCommand === 'backup') {
+        } else if(subCommand === 'Save' || subCommand === 'save') {
             try {
-                const buffer = await downloadMediaMessage(messageRaw, 'buffer')
+                const buffer = await downloadMediaMessage(message, 'buffer')
                 const path = secondSubCommand ? secondSubCommand : pushName
                 backup(buffer, path, fileName)
-                data.reply = `📄 ${fileName} - ${lang('backup')}`
+                data.reply = `📄 ${fileName} - ${lang('saved')}`
             } catch (error) {
-                console.log("Announcement: Error backup file")
-                data.reply = `📄 ${fileName} - ${lang('errBackup')}`
+                console.log(error)
+                data.reply = `📄 ${fileName} - ${lang('errSave')}`
             }
         } else if(subCommand === undefined) {
             data.reply = lang('noIntrucDoc')
@@ -64,8 +65,8 @@ async function documentMessage(messageRaw) {
     return data
 }
 
-async function conversationMessage(pushName, message) {
-    console.log(chalk.gray(`Receive message txt from ${chalk.whiteBright(pushName)}: ${message.length >= 15 ? message.slice(0, 15) + "..." : message}`))
+async function conversationMessageHandler(message, pushName) {
+    console.log(chalk.gray(`Receive message txt from ${chalk.whiteBright(pushName)}: ${message.length >= 15 ? message.substring(0, 15) + "..." : message}`))
     const mainCommand = message.split(" ")[0]
     const subCommand = message.split(" ")[1]
     const secondSubCommand = message.split(" ")[2]
@@ -112,4 +113,17 @@ async function conversationMessage(pushName, message) {
     return data
 }
 
-export { documentMessage, conversationMessage }
+async function extendedMessageHandler(message, pushname) {
+    const { documentMessage } = message.contextInfo.quotedMessage
+    let data = {
+        error: true,
+        reply: ""
+    }
+    
+    if(documentMessage) {
+        data = documentMessageHandler(documentMessage, pushname, message.text)
+    }
+    return data
+}
+
+export { documentMessageHandler, conversationMessageHandler, extendedMessageHandler }

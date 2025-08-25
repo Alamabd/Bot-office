@@ -3,9 +3,9 @@ dotenv.config({ quiet: true })
 import { makeWASocket, useMultiFileAuthState } from 'baileys'
 import QRCode from 'qrcode-terminal'
 import P from 'pino'
-import chalk from 'chalk'
 import fs from 'fs'
-import { conversationMessageHandler, documentMessageHandler, extendedMessageHandler } from "./src/utils/messageHandler.js"
+import { conversationMessageHandler, documentMessageHandler } from "./src/utils/messageHandler.js"
+import logger from "./src/utils/pino.js"
 
 const { state, saveCreds } =  await useMultiFileAuthState('auth_info_baileys')
 
@@ -22,13 +22,13 @@ function main() {
             QRCode.generate(qr, { small: true })
         }
         if(connection === 'open') {
-            console.log(chalk.greenBright('Bot connected'))
+            logger.info('Bot connected')
         } else if(connection === 'close') {
             const shouldReconnect = lastDisconnect.error?.output?.statusCode
-            console.log(chalk.redBright('Bot disconnecting'))
+            logger.error('Bot disconnecting')
             if(shouldReconnect === 408 || shouldReconnect === 428) {
                 const delay = process.env.DELAY_RECONECT
-                console.log(chalk.greenBright(`Bot reconnecting ${delay} minutes`))
+                logger.info(`Bot reconnecting ${delay} minutes`)
                 setTimeout(() => {
                     main()
                 }, delay * 60 * 1000)
@@ -40,35 +40,26 @@ function main() {
 
         fs.writeFileSync('tesMessages/all.txt', JSON.stringify(m, null, 2))
         if(m.type === 'notify') {
-            const { key, pushName, message } = m.messages[0]
-            try {
-                if(message.documentMessage) {
-                    const { error, reply } = await documentMessageHandler(message.documentMessage, pushName)
-                    if(!error) {
-                        sock.sendMessage(key.remoteJid, { text: reply })
-                    }
-                } else if(message.documentWithCaptionMessage) {
-                    const { error, reply } = await documentMessageHandler(message.documentWithCaptionMessage, pushName)
-                    if(!error) {
-                        sock.sendMessage(key.remoteJid, { text: reply })
-                    }
-                } else if(message.conversation) {
-                    const { conversation } = message
-                    const { reply, error } = await conversationMessageHandler(conversation, pushName)
-                    if(!error) {
-                        sock.sendMessage(key.remoteJid, { text: reply })
-                    }
-                } else if(message.extendedTextMessage) {
-                    const { error, reply } = await extendedMessageHandler(message.extendedTextMessage, pushName)
-                    if(!error) {
-                        sock.sendMessage(key.remoteJid, { text: reply })
-                    }
-                } else {
-                    const msgType = Object.keys(message)[0]
-                    console.log(chalk.redBright(`No handler message type: ${msgType}`))
+            const { key, message, pushName } = m.messages[0]
+            if(message.documentMessage) {
+                const { error, reply } = await documentMessageHandler(m.messages[0])
+                if(!error) {
+                    sock.sendMessage(key.remoteJid, { text: reply })
                 }
-            } catch (error) {
-                console.log(chalk.red(error))
+            } else if(message.documentWithCaptionMessage) {
+                const { error, reply } = await documentMessageHandler(m.messages[0])
+                if(!error) {
+                    sock.sendMessage(key.remoteJid, { text: reply })
+                }
+            } else if(message.conversation) {
+                const { conversation } = message
+                const { reply, error } = await conversationMessageHandler(conversation, pushName)
+                if(!error) {
+                    sock.sendMessage(key.remoteJid, { text: reply })
+                }
+            } else {
+                const msgType = Object.keys(message)[0]
+                logger.warn(`No handler message type: ${msgType}`)
             }
         }
     })

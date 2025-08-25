@@ -1,10 +1,12 @@
 import fs from 'fs'
 
 export function backup(buffer, path, fileName) {
-    const date = new Date()
-    const now = date.toLocaleDateString("ID").replaceAll('/', '-')
-    const name = `${now}_${fileName}`
+    const dateRaw = new Date()
+    const date = dateRaw.toLocaleDateString("ID").replaceAll('/', '-')
+    const time = dateRaw.toLocaleTimeString("ID").replaceAll(':', '-')
+    const name = `${date}_${time}_${fileName}`
 
+    
     if(path.substring(0, 1) === '/') {
         path = path.substring(1)
     }
@@ -21,6 +23,6 @@ export function backup(buffer, path, fileName) {
     if(!fs.existsSync('./backup/' + path)) {
         fs.mkdirSync('./backup/' + path)
     }
-    console.log('./backup/' + path + '/' + name)
-    // fs.writeFileSync('./backup/' + path + '/' + name, buffer)
+
+    fs.writeFileSync('./backup/' + path + '/' + name, buffer)
 }

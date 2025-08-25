@@ -4,17 +4,17 @@ import fs from 'fs'
 import si from 'systeminformation'
 import chalk from 'chalk'
 import { printerConnection, printerQueue } from './src/feat/print.js'
-import { conversationMessageHandler, documentMessageHandler, extendedMessageHandler } from './src/utils/messageHandler.js'
+import { conversationMessageHandler, documentMessageHandler } from './src/utils/messageHandler.js'
 
 const args = process.argv
 const command = args[2]
 
 async function main() {
     if(command === 'doc') {
-        const raw = fs.readFileSync('./tesMessages/doc.txt', { encoding: 'utf-8' })
+        const raw = fs.readFileSync('./tesMessages/doc.json', { encoding: 'utf-8' })
         const data = JSON.parse(raw)
         
-        const docHandler = await documentMessageHandler(data, "jamal")
+        const docHandler = await documentMessageHandler(data.messages[0])
         console.log("Result: ", docHandler)
         console.log("Response: ", chalk.gray(docHandler.reply))
     } else if(command === 'conv') {
@@ -24,13 +24,6 @@ async function main() {
         const convHandler = await conversationMessageHandler(data, "alam")
         console.log("Result: ", convHandler)
         console.log("Response: ", chalk.gray(convHandler.reply))
-    } else if(command === 'xten') {
-        const raw = fs.readFileSync('./tesMessages/extendedDoc.txt', { encoding: 'utf-8' })
-        const data = JSON.parse(raw)
-
-        const xtenHandler = await extendedMessageHandler(data, "udin")
-        console.log("Result: ", xtenHandler)
-        console.log("Response: ", chalk.gray(xtenHandler.reply))
     } else if(command === 'sys') {
         console.log("Checking system configuration/integration:")
         console.log(chalk.gray("-".repeat(30)))

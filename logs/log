@@ -1,0 +1,8 @@
+[2025-08-25 23:28:05.439 +0700] [32mINFO[39m: [36mBot connected[39m
+[2025-08-25 23:28:33.331 +0700] [32mINFO[39m: [36mReceive message txt from lam: Lam[39m
+[2025-08-25 23:29:54.168 +0700] [32mINFO[39m: [36mBot connected[39m
+{"level":30,"time":1756139619396,"pid":14348,"hostname":"Asus","msg":"Bot connected"}
+[2025-08-25 23:34:37.856 +0700] [32mINFO[39m: [36mBot connected[39m
+[2025-08-25 23:34:49.211 +0700] [32mINFO[39m: [36mReceive message txt from lam: Lam hahah[39m
+[2025-08-25 23:35:08.258 +0700] [32mINFO[39m: [36mReceive message txt from lam: Lam stats[39m
+[2025-08-25 23:35:17.073 +0700] [32mINFO[39m: [36mReceive message txt from lam: Lam off[39m

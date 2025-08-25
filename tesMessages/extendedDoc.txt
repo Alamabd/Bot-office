@@ -1,0 +1,31 @@
+{
+  "text": "Lam save",
+  "previewType": "NONE",
+  "contextInfo": {
+    "stanzaId": "CF76A1805AFB0B44169D8322B596A903",
+    "participant": "6283152942468@s.whatsapp.net",
+    "quotedMessage": {
+      "documentMessage": {
+        "url": "https://mmg.whatsapp.net/v/t62.7119-24/536501153_761614256618936_5727687295813702441_n.enc?ccb=11-4&oh=01_Q5Aa2QF5zkU_ak3eLYzxc_MK2-uJkceyuiawLpq2yomXEZCKjw&oe=68CFC4E3&_nc_sid=5e03e0&mms3=true",
+        "mimetype": "application/pdf",
+        "fileSha256": "WeK9R/JQyOBXcMOKbvEikd39lqa66exRk3SQbwSI+WU=",
+        "fileLength": "49676",
+        "pageCount": 2,
+        "mediaKey": "BAXXAgPeJK17It4GpYN5vGywpme95dQ301h/zFk4xxE=",
+        "fileName": " EKA NURMAYANTI_241010009 ( Asking and Giving Opinion)_20241216_213045_0000.pdf",
+        "fileEncSha256": "MrabbeTBaHmucUJRc4KilIjcDvvFdfFMJM+2tbEQNsE=",
+        "directPath": "/v/t62.7119-24/536501153_761614256618936_5727687295813702441_n.enc?ccb=11-4&oh=01_Q5Aa2QF5zkU_ak3eLYzxc_MK2-uJkceyuiawLpq2yomXEZCKjw&oe=68CFC4E3&_nc_sid=5e03e0",
+        "mediaKeyTimestamp": "1755751406",
+        "thumbnailDirectPath": "/v/t62.36145-24/536589592_3442633789209843_6136471180600589742_n.enc?ccb=11-4&oh=01_Q5Aa2QETb6EDx0hrJyqD51EaRC7SGBlYBM9aaS3J4-W3nCELdg&oe=68CFB6BD&_nc_sid=5e03e0",
+        "thumbnailSha256": "VPBr65p1XYad9oa2tPTyAxJqZuN8ox0LpnFDohICUKA=",
+        "thumbnailEncSha256": "zLLMgb6uf3Dj0nRT2u6qwmbuDhSm9/c+GO6mw3uX7Jw=",
+        "jpegThumbnail": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABERERESERMVFRMaHBkcGiYjICAjJjoqLSotKjpYN0A3N0A3WE5fTUhNX06MbmJiboyiiIGIosWwsMX46/j///8BERERERIRExUVExocGRwaJiMgICMmOiotKi0qOlg3QDc3QDdYTl9NSE1fToxuYmJujKKIgYiixbCwxfjr+P/////CABEIAGAARAMBIgACEQEDEQH/xAArAAEAAwEBAAAAAAAAAAAAAAAAAQMEAgYBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAPd8TWXoEkEgAK4LVIuUC9T2dgrz66SprGSNgyd6BIKsu6gqbRjbBjnWAK6r6yudIz29jiZkhIpz7YMcbRja+jDbpkA//8QAOxAAAQICBgYFCgcBAAAAAAAAAQACAxEEEhMhkZIQQVJTYeEUInGC8CAjMUJDUWJjk6EyM3KBorHi8f/aAAgBAQABPwCNGdDeGh0MTHrTTKXFiPDGPgFx1XplpfXq8JeXFcQ8Se9t2oIRn72MR+hCksPqvylCOwXVX5V0lmy/KUyI18wA4dol5DnOaRJs1avPohHEIRHGXmziPLpJhujAubOQ4KvR/wAVg0HsCDqOLxAbgFWowb+Q3AIGj7gA9gU6NqgiY4BVqMfYtB7AmGDMObAF2uWilNc6KJD1fcrJ2tn2Vm7YOCsnC+ocFZvu6hyownifVOVWT9j+KZasM2g4GSHFRy2uBVB79VBwaQQxv1CUKQ/W1mZdIfsszo0h+yzMukO2WZ1bu2W5lbuu6rc+iljzw7AgOAkqj/SIas37BKEN2wqj9g4Ko/WwpsN0wSw/sL9FKlaC8ejYrJtWsJ1fpoRYYAlPKVbs+LKVbM+LAq1ZxwKtmccCmuDhMaI4iNeAyZuCBpGy/Hkp0jZfjyU441Ox5ICORrHaeSEGknWM3JCDSTMTGbkrCk7QzctEZsnCTSbtTpJoIvqOmPe5Wj92cQrR+7OIVo/dnEKu/dnEIRHkjqffTS2zizqg3eNRVSV1m3x3VU+WMOSqfLGHJVDfOGPHdVS+dmMP8qrL2Y8d1Q6zZAAtHD/miJAY8hx/oJ1DY3WMoRobAJzE+wI0NjZGYwCNEhtInI8JBGDB3bcFYwd23BCFDaZhjQeA0f/EABQRAQAAAAAAAAAAAAAAAAAAAED/2gAIAQIBAT8Ad//EABQRAQAAAAAAAAAAAAAAAAAAAED/2gAIAQMBAT8Ad//Z",
+        "thumbnailHeight": 480,
+        "thumbnailWidth": 339,
+        "caption": "Lam print"
+      }
+    }
+  },
+  "inviteLinkGroupTypeV2": "DEFAULT",
+  "linkPreviewMetadata": {}
+}

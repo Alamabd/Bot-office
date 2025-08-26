@@ -37,8 +37,6 @@ function main() {
     })
 
     sock.ev.on('messages.upsert', async (m) => {
-
-        fs.writeFileSync('tesMessages/all.txt', JSON.stringify(m, null, 2))
         if(m.type === 'notify') {
             const { key, message, pushName } = m.messages[0]
             if(message.documentMessage) {
@@ -47,7 +45,7 @@ function main() {
                     sock.sendMessage(key.remoteJid, { text: reply })
                 }
             } else if(message.documentWithCaptionMessage) {
-                const { error, reply } = await documentMessageHandler(m.messages[0])
+                const { error, reply } = await documentMessageHandler(message.documentMessage)
                 if(!error) {
                     sock.sendMessage(key.remoteJid, { text: reply })
                 }

@@ -28,7 +28,7 @@ async function documentMessageHandler(m) {
             const connection = await printerConnection(printerName)
             
             if(connection === true) {
-                if(queue) {
+                if(!queue) {
                     const options = generateOptionsPrint(caption)
                     const buffer = await downloadMediaMessage(m, 'buffer')
                     if(!fs.existsSync('./temp')) {
